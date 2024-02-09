@@ -1,20 +1,22 @@
 package GestionProjet;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Projet {
 
+    protected int idProjet;
     protected String nom;
-    protected Date dateDebut;
-    protected Date dateFin;
+    protected LocalDate dateDebut;
+    protected LocalDate dateFin;
     protected BigDecimal cout;
     protected List<Discipline> disciplines=new ArrayList<>();
     protected List<Travail> travaux=new ArrayList<>();
 
-    public Projet(String nom, Date dateDebut, Date dateFin, BigDecimal cout) {
+    public Projet(String nom, LocalDate dateDebut, LocalDate dateFin, BigDecimal cout) {
 
         this.nom = nom;
         this.dateDebut = dateDebut;
@@ -30,19 +32,19 @@ public class Projet {
         this.nom = nom;
     }
 
-    public Date getDateDebut() {
+    public LocalDate getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(Date dateDebut) {
+    public void setDateDebut(LocalDate dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public Date getDateFin() {
+    public LocalDate getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin(LocalDate dateFin) {
         this.dateFin = dateFin;
     }
 
@@ -68,5 +70,15 @@ public class Projet {
 
     public void setTravaux(List<Travail> travaux) {
         this.travaux = travaux;
+    }
+
+    public List<Travail> listeEmployesEtPourcentageEtDate(){
+        List<Travail> t=new ArrayList<>();
+        return t;
+    }
+
+    public void addEmploye(Employe emp, int pourcentage, LocalDate date){
+
+
     }
 }
