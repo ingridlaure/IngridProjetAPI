@@ -3,7 +3,6 @@ package GestionProjet;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Projet {
@@ -13,8 +12,8 @@ public class Projet {
     protected LocalDate dateDebut;
     protected LocalDate dateFin;
     protected BigDecimal cout;
-    protected List<Discipline> disciplines=new ArrayList<>();
-    protected List<Travail> travaux=new ArrayList<>();
+    protected Discipline disciplineDeBase;
+    protected List<Travail> travaux = new ArrayList<>();
 
     public Projet(String nom, LocalDate dateDebut, LocalDate dateFin, BigDecimal cout) {
 
@@ -56,12 +55,12 @@ public class Projet {
         this.cout = cout;
     }
 
-    public List<Discipline> getDisciplines() {
-        return disciplines;
+    public Discipline getDisciplineDeBase() {
+        return disciplineDeBase;
     }
 
-    public void setDisciplines(List<Discipline> disciplines) {
-        this.disciplines = disciplines;
+    public void setDisciplineDeBase(Discipline disciplineDeBase) {
+        this.disciplineDeBase = disciplineDeBase;
     }
 
     public List<Travail> getTravaux() {
@@ -72,13 +71,32 @@ public class Projet {
         this.travaux = travaux;
     }
 
-    public List<Travail> listeEmployesEtPourcentageEtDate(){
-        List<Travail> t=new ArrayList<>();
+    public List<Travail> listeEmployesEtPourcentageEtDate() {
+        List<Travail> t = new ArrayList<>();
         return t;
     }
 
-    public void addEmploye(Employe emp, int pourcentage, LocalDate date){
+    public void addEmploye(Employe emp, int pourcentage, LocalDate date) {
 
 
     }
+
+    public void supEmploye(Employe emp) {
+
+    }
+
+    public void moddifEmploye(Employe emp, int pourcentage) {
+    }
+
+    public int totalPourcentage() {
+        int t = 0;
+        return t;
+    }
+public List<Employe> listeEmployesDisciplineBase(int niveau)
+{
+    List<Employe> l=new ArrayList<>();
+    return l;
+
 }
+}
+
