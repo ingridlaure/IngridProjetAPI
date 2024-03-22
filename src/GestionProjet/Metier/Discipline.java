@@ -1,5 +1,6 @@
 package GestionProjet.Metier;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,21 +24,19 @@ public class Discipline {
     /**
      * liste des projets ayant comme discipline de base
      */
-    protected List<Projet> listeProjets;
+    protected List<Projet> listeProjets=new ArrayList<>();
 
     /**
      * constructeur parametre
      * @param idDiscipline identifiant unique de la discipline
      * @param nom nom unique de la discipline
      * @param description description de la discipline
-     * @param listeProjets liste des projet de la discipline
      */
 
-    public Discipline(int idDiscipline, String nom, String description, List<Projet> listeProjets) {
+    public Discipline(int idDiscipline, String nom, String description) {
         this.idDiscipline = idDiscipline;
         this.nom = nom;
         this.description = description;
-        this.listeProjets = listeProjets;
     }
 
     /**
@@ -128,7 +127,7 @@ public class Discipline {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Discipline that = (Discipline) o;
-        return Objects.equals(nom, that.nom);
+        return idDiscipline == that.idDiscipline;
     }
 
     /**

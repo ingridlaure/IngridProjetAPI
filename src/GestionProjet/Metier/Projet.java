@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * classe metier de gestion d'un projet
@@ -263,7 +264,18 @@ public class Projet {
             }
         }
         return l;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Projet projet = (Projet) o;
+        return idProjet == projet.idProjet;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProjet, nom, dateDebut, dateFin, cout, disciplineDeBase, listeTravaux);
     }
 }
 

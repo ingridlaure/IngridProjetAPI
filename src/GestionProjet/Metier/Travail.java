@@ -3,6 +3,7 @@ package GestionProjet.Metier;
 import GestionProjet.Metier.Employe;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * classe metier de gestion d'un Travail
@@ -121,5 +122,18 @@ public class Travail {
      */
     public void setEmploye(Employe employe) {
         this.employe = employe;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Travail travail = (Travail) o;
+        return idTravail == travail.idTravail;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idTravail, pourcentage, dateEngag, employe);
     }
 }

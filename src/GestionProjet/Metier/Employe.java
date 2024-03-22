@@ -1,6 +1,8 @@
 package GestionProjet.Metier;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * classe métier de la gestion d'un employe
@@ -37,7 +39,7 @@ public class Employe {
     /**
      * liste des competences de l'employé
      */
-    List<Competence> listeCompetences;
+    List<Competence> listeCompetences= new ArrayList<>();
 
     /**
      * constructeur paramétré
@@ -48,16 +50,14 @@ public class Employe {
      * @param prenom           prenom de l'employe
      * @param tel              numero de telephone ne l'employe
      * @param mail             adresse mail de l'employe
-     * @param listeCompetences ensemble des compétences de l'employe
      */
-    public Employe(int idEmploye, String matricule, String nom, String prenom, String tel, String mail, List<Competence> listeCompetences) {
+    public Employe(int idEmploye, String matricule, String nom, String prenom, String tel, String mail) {
         this.idEmploye = idEmploye;
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
         this.tel = tel;
         this.mail = mail;
-        this.listeCompetences = listeCompetences;
     }
 
     /**
@@ -222,4 +222,16 @@ public class Employe {
         listeCompetences.removeIf(c -> c.getDiscipline().equals(discipline));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employe employe = (Employe) o;
+        return idEmploye == employe.idEmploye ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idEmploye, matricule, nom, prenom, tel, mail, listeCompetences);
+    }
 }

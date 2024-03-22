@@ -13,7 +13,7 @@ public class Competence {
   */
  protected int idCompetence;
  /**
-  * niveau de competence
+  * niveau de competences
   */
  protected int niveau;
  /**
@@ -105,7 +105,7 @@ public class Competence {
   if (this == o) return true;
   if (o == null || getClass() != o.getClass()) return false;
   Competence that = (Competence) o;
-  return idCompetence == that.idCompetence && niveau == that.niveau && Objects.equals(discipline, that.discipline);
+  return idCompetence == that.idCompetence;
  }
 
  /**
