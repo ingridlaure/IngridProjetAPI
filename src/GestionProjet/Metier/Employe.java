@@ -231,7 +231,20 @@ public class Employe {
     }
 
     @Override
+    public String toString() {
+        return "Employe{" +
+                "idEmploye=" + idEmploye +
+                ", matricule='" + matricule + '\'' +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", tel='" + tel + '\'' +
+                ", mail='" + mail + '\'' +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(idEmploye, matricule, nom, prenom, tel, mail, listeCompetences);
     }
 }
+
