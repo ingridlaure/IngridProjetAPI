@@ -22,7 +22,7 @@ public class EmployeModelDB extends DAOEmploye {
 
     @Override
     public Employe addEmploye(Employe employe) {
-        String query1 = "insert into APIEMLOYE(matricule,nom,prenom,tel,mail) values(?,?,?,?,?)";
+        String query1 = "insert into APIEMPLOYE(matricule,nom,prenom,tel,mail) values(?,?,?,?,?)";
         String query2 = "select idemploye from APIEMPLOYE where matricule= ?";
         try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1);
              PreparedStatement pstm2 = dbConnect.prepareStatement(query2);
@@ -73,7 +73,7 @@ public class EmployeModelDB extends DAOEmploye {
 
     @Override
     public Employe updateEmploye(Employe employe) {
-        String query = "update APIEMPLOYE set nom=?,prenom?,tel?,mail=? where matricule = ?";
+        String query = "update APIEMPLOYE set nom=?,prenom=?,tel=?,mail=? where matricule = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setString(1, employe.getNom());
             pstm.setString(2, employe.getPrenom());

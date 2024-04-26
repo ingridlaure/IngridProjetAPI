@@ -22,7 +22,7 @@ public class GestionProjet {
         ev = new EmployeViewConsole();
         ec = new EmployeController(em, ev);
         em.addObserver(ev);
-        List<String> loptions = Arrays.asList("produits", "fin");
+        List<String> loptions = Arrays.asList("Employe", "fin");
         do {
             int ch = Utilitaire.choixListe(loptions);
             switch (ch) {
