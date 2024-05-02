@@ -24,4 +24,5 @@ public class EmployeController {
         return model.updateEmploye(employe);
     }
     public Employe search(String matricule){ return model.readEmploye(matricule);}
+
 }

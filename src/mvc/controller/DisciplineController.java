@@ -20,10 +20,10 @@ public class DisciplineController {
     public List<Discipline> getAll(){return model.getDisciplines();}
 
     public Discipline addDsisicpline( Discipline discipline){return model.addDiscipline(discipline);}
-    public boolean removeDiscipline(Discipline discipline){model.removeDisicipline(discipline);}
-    public  Discipline updateDiscipline(Discipline discipline){return model.updateDisicpline(discipline);}
+    public boolean removeDiscipline(Discipline discipline){ return model.removeDiscipline(discipline);}
+    public  Discipline updateDiscipline(Discipline discipline){return model.updateDiscipline(discipline);}
     public Discipline search(int idDiscipline){return model.readDiscipline(idDiscipline);}
-    public List<Projet> projets(Discipline discipline){return model.projets(discipline);}
+    public List<Projet> projets(Discipline discipline){return model.listeProjets(discipline);}
 
 
 }

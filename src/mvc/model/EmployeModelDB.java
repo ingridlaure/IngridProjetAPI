@@ -1,5 +1,7 @@
 package mvc.model;
 
+import GestionProjet.Metier.Competence;
+import GestionProjet.Metier.Discipline;
 import GestionProjet.Metier.Employe;
 import myconnections.DBConnection;
 
@@ -139,6 +141,79 @@ public class EmployeModelDB extends DAOEmploye {
 
             return null;
         }
+    }
+
+    @Override
+    public boolean addDiscipline(Employe emp, Discipline dis, int niveau) {
+        String query="insert into APICOMPETENCE(idemploye,iddiscipline,niveau) values(?,?,?)";
+        try(PreparedStatement pstm=dbConnect.prepareStatement(query)){
+            pstm.setInt(1,emp.getIdEmploye());
+            pstm.setInt(2,dis.getIdDiscipline());
+            pstm.setInt(3,niveau);
+            int n=pstm.executeUpdate();
+            if(n!=0) return true;
+            else return false;
+        }catch(SQLException e){
+            System.out.println("erreur sql : "+e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateDiscipline(Employe emp, Discipline dis, int niveau) {
+        String query = "update  APICOMPETENCE set niveau= ? where idemploye = ? AND iddiscipline = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,niveau);
+            pstm.setInt(2,emp.getIdEmploye());
+            pstm.setInt(3,dis.getIdDiscipline());
+            int n = pstm.executeUpdate();
+            if(n!=0) return true;
+            else return false;
+
+        } catch (SQLException e) {
+            System.err.println("erreur sql :" + e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean removeDiscipline(Employe emp, Discipline dis) {
+        String query = "DELETE FROM  APICOMPETENCE where  idemploye = ? AND iddiscipline = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,emp.getIdEmploye());
+            pstm.setInt(2,dis.getIdDiscipline());
+            int n = pstm.executeUpdate();
+            if(n!=0) return true;
+            else return false;
+
+        } catch (SQLException e) {
+            System.err.println("erreur sql :" + e);
+            return false;
+        }
+    }
+
+    @Override
+    public List<Competence> getDisciplines(Employe emp) {
+        String query="SELECT * FROM COMPETENCEDISCIPLINE WHERE IDDISCIPLINE=?";
+        List<Competence> ll=new ArrayList<>();
+        try(PreparedStatement pstm=dbConnect.prepareStatement(query)){
+            pstm.setInt(1,emp.getIdEmploye());
+            ResultSet rs=pstm.executeQuery();
+            while(rs.next()){
+                int idCompetence=rs.getInt("idcompetence");
+                int idEmploye=rs.getInt("idemploye");
+                int idDiscipline=rs.getInt("iddiscipline");
+                int niveau=rs.getInt("niveau");
+                String nom=rs.getString("nom");
+                String description=rs.getString("description");
+                Discipline dis=new Discipline(idDiscipline,nom,description);
+                Competence comp=new Competence(idCompetence,niveau,dis);
+                ll.add(comp);
+            }
+        }catch(SQLException e){
+            System.err.println("erreur sql : "+e);
+        }
+        return ll;
     }
 
     @Override
