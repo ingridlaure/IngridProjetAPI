@@ -1,5 +1,7 @@
 package mvc.controller;
 
+import GestionProjet.Metier.Competence;
+import GestionProjet.Metier.Discipline;
 import GestionProjet.Metier.Employe;
 import mvc.model.DAOEmploye;
 import mvc.view.EmployeAbstractView;
@@ -24,5 +26,10 @@ public class EmployeController {
         return model.updateEmploye(employe);
     }
     public Employe search(String matricule){ return model.readEmploye(matricule);}
+    public boolean addDiscipline(Employe emp, Discipline dis,int niveau){return model.addDiscipline(emp,dis,niveau);}
+    public boolean updateDiscipline(Employe emp, Discipline dis,int niveau){return model.updateDiscipline(emp,dis,niveau);}
+    public boolean supDiscipline(Employe emp,Discipline dis){return model.removeDiscipline(emp,dis);}
+    public List<Competence> getCompetences(Employe emp){return model.getDisciplines(emp);}
+
 
 }
