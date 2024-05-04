@@ -154,27 +154,84 @@ public class ProjetModelDB extends DAOProjet {
     }
 
     @Override
-    public boolean addEmploye(Projet proj, Employe emp, int pourcentage) {
+    public boolean addEmploye(Projet proj, Employe emp,LocalDate dte, int pourcentage) {
         String query="insert into APITRAVAIL(idprojet,idemploye,dateengag,pourcentage) values(?,?,?,?)";
+        try(PreparedStatement pstm= dbConnect.prepareStatement(query)){
+            pstm.setInt(1,proj.getIdProjet());
+            pstm.setInt(2,emp.getIdEmploye());
+            pstm.setDate(3, dte!=null?Date.valueOf(dte):null);
+            pstm.setInt(4,pourcentage);
+            int n=pstm.executeUpdate();
+            if(n!=0) return true;
+            else return false;
+        }catch(SQLException e){
+            System.err.println("erreur sql :"+e);
+            return false;
+        }
     }
 
     @Override
     public boolean updateEmploye(Projet proj, Employe emp, int pourcentage) {
-        return false;
+        String query = "update APITRAVAIL set pourcentage=? where idprojet=? and idemploye=?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, pourcentage);
+            pstm.setInt(2, proj.getIdProjet());
+            pstm.setInt(3, emp.getIdEmploye());
+            int n = pstm.executeUpdate();
+            if (n != 0) return true;
+            else return false;
+        } catch (SQLException e) {
+            System.err.println("eereur sql: " + e);
+            return false;
+        }
     }
 
     @Override
     public boolean removeEmploye(Projet proj, Employe emp) {
-        return false;
+        String query="delete from apitravail where idprojet=? and idemploye=?";
+        try(PreparedStatement pstm=dbConnect.prepareStatement(query)){
+            pstm.setInt(1,proj.getIdProjet());
+            pstm.setInt(2,emp.getIdEmploye());
+            int n=pstm.executeUpdate();
+            if(n!=0) return true;
+            else return false;
+        }catch(SQLException e){
+            System.err.println("erreur sql : "+e);
+            return false;
+        }
     }
 
     @Override
     public List<Travail> getEmployes(Projet proj) {
-        return null;
+        String query="slect * from apitravailemploye where idprojet=?";
+        List<Travail> lt=new ArrayList<>();
+        try(PreparedStatement pstm=dbConnect.prepareStatement(query)){
+            pstm.setInt(1,proj.getIdProjet());
+            ResultSet rs=pstm.executeQuery(query);
+            while(rs.next()){
+                int idtravail=rs.getInt("idtravail");
+                int idprojet=rs.getInt("idprojet");
+                int idemploye=rs.getInt("idemploye");
+                Date dte=rs.getDate("dateengag");
+                LocalDate dateengag=dte!=null?dte.toLocalDate():null;
+                int pourcentage=rs.getInt("pourcentage");
+                String mat=rs.getString("matricule");
+                String nom=rs.getString("nom");
+                String prenom=rs.getString("prenom");
+                String tel=rs.getString("tel");
+                String mail=rs.getString("mail");
+                Employe emp=new Employe(idemploye,mat,nom,prenom,tel,mail);
+                Travail t= new Travail(idtravail,pourcentage,dateengag,emp);
+                lt.add(t);
+            }
+        }catch(SQLException e){
+            System.err.println("erreur sql :"+e);
+        }
+        return lt;
     }
 
     @Override
     public List getNotification() {
-        return null;
+        return getProjets();
     }
 }
