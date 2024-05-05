@@ -238,8 +238,7 @@ public class Employe {
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", tel='" + tel + '\'' +
-                ", mail='" + mail + '\'' +
-                '}';
+                ", mail='" + mail ;
     }
 
     @Override

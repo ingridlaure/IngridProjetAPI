@@ -47,6 +47,7 @@ public class DiscipineViewConsole extends DisciplineAbstractView {
     }
 
     private void supprimer() {
+        affList(ld);
         int n = choixElt(ld) - 1;
         Discipline dis = ld.get(n);
         boolean ok = disciplineController.removeDiscipline(dis);
@@ -67,6 +68,7 @@ public class DiscipineViewConsole extends DisciplineAbstractView {
     }
 
     private void modfifer() {
+        affList(ld);
         int n = choixElt(ld) - 1;
         Discipline dis = ld.get(n);
         String nom = modifyIfNotBlank(" nom :", dis.getNom());

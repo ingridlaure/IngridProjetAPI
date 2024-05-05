@@ -45,24 +45,30 @@ public class Projet {
 
     /**
      * constructeur parametre
-     * @param idProjet identifiant unique du projet
-     * @param nom nom du projet
+     *
+     * @param idProjet  identifiant unique du projet
+     * @param nom       nom du projet
      * @param dateDebut date de debut du projet
-     * @param dateFin date de fin du projet
-     * @param cout cout du projet
+     * @param dateFin   date de fin du projet
+     * @param cout      cout du projet
      */
-    public Projet(int idProjet, String nom, LocalDate dateDebut, LocalDate dateFin, BigDecimal cout,Discipline discipline) {
+    public Projet(int idProjet, String nom, LocalDate dateDebut, LocalDate dateFin, BigDecimal cout, Discipline discipline) {
         this.idProjet = idProjet;
         this.nom = nom;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
-        cout.setScale(2, RoundingMode.HALF_UP);
-        this.disciplineDeBase=discipline;
+        cout = new BigDecimal(0);
+        this.cout = cout.setScale(2, RoundingMode.HALF_UP);
+        this.disciplineDeBase = discipline;
 
+    }
+
+    public Projet() {
     }
 
     /**
      * getter idProjet
+     *
      * @return l'identifiant du projet
      */
     public int getIdProjet() {
@@ -71,6 +77,7 @@ public class Projet {
 
     /**
      * setter idPorjet
+     *
      * @param idProjet identifiant du projet
      */
     public void setIdProjet(int idProjet) {
@@ -79,6 +86,7 @@ public class Projet {
 
     /**
      * getter listeTravaux
+     *
      * @return la liste des employes et leur pourcentage de travail
      */
     public List<Travail> getListetravaux() {
@@ -87,6 +95,7 @@ public class Projet {
 
     /**
      * setter listeTravaux
+     *
      * @param listetravaux liste des employés, leur pourcentage de travail dans le projet et leur date d'engagement dans le projet
      */
     public void setListetravaux(List<Travail> listetravaux) {
@@ -95,6 +104,7 @@ public class Projet {
 
     /**
      * getter nom
+     *
      * @return le nom du projet
      */
     public String getNom() {
@@ -103,6 +113,7 @@ public class Projet {
 
     /**
      * setter nom
+     *
      * @param nom nom du projet
      */
     public void setNom(String nom) {
@@ -111,6 +122,7 @@ public class Projet {
 
     /**
      * getter dateDebut
+     *
      * @return la date de debut du projet
      */
     public LocalDate getDateDebut() {
@@ -119,6 +131,7 @@ public class Projet {
 
     /**
      * setter dateDebut
+     *
      * @param dateDebut
      */
     public void setDateDebut(LocalDate dateDebut) {
@@ -127,6 +140,7 @@ public class Projet {
 
     /**
      * getter dateFin
+     *
      * @return la date de fin du projet
      */
     public LocalDate getDateFin() {
@@ -135,14 +149,17 @@ public class Projet {
 
     /**
      * setter dateFin
+     *
      * @param dateFin la date de fin du projet
      */
     public void setDateFin(LocalDate dateFin) {
         this.dateFin = dateFin;
     }
 
-    /**$
+    /**
+     * $
      * getter cout
+     *
      * @return le cout du projet
      */
     public BigDecimal getCout() {
@@ -151,13 +168,16 @@ public class Projet {
 
     /**
      * setter cout
+     *
      * @param cout le cout du projet
      */
     public void setCout(BigDecimal cout) {
         this.cout = cout;
     }
+
     /**
      * getter disciplineBase
+     *
      * @return la discipline de base du projet
      */
     public Discipline getDisciplineDeBase() {
@@ -166,6 +186,7 @@ public class Projet {
 
     /**
      * setter disciplinedeBase
+     *
      * @param disciplineDeBase la discipline de base du projet
      */
     public void setDisciplineDeBase(Discipline disciplineDeBase) {
@@ -174,6 +195,7 @@ public class Projet {
 
     /**
      * methode toString
+     *
      * @return les information sur projet
      */
     @Override
@@ -191,7 +213,6 @@ public class Projet {
 
 
     /**
-     *
      * @return la liste des employés avec leur poucentage de travail dans le projet ainsi que leur date d'engagement
      */
 
@@ -201,6 +222,7 @@ public class Projet {
 
     /**
      * methode d'ajout d'un objet travail qui est composé d'un employe, son pourcentage de travail et sa date d'engagement
+     *
      * @param travail le travail à ajouter
      * @return true si l'employe a été ajouté avec succes et false dans le cas contraire
      */
@@ -215,6 +237,7 @@ public class Projet {
 
     /**
      * methode de suppresion de l'employe dans le projet
+     *
      * @param emp l'employe à supprimer
      */
     public void supEmploye(Employe emp) {
@@ -223,7 +246,8 @@ public class Projet {
 
     /**
      * methode de modfification du poucentage de travail d'un employe
-     * @param emp l'employé à modifier
+     *
+     * @param emp         l'employé à modifier
      * @param pourcentage le nouveau pourcentage à affecter
      * @return vrai si modifé avec  succes et false si l'employe n'existe pas
      */
@@ -241,12 +265,13 @@ public class Projet {
 
     /**
      * methode de calcul de la valeur totale des pourcentage de travail
+     *
      * @return la somme des pourcentages du projet
      */
     public int totalPourcentage() {
-        int somme=0;
-        for(Travail t: listeTravaux){
-            somme+=t.getPourcentage();
+        int somme = 0;
+        for (Travail t : listeTravaux) {
+            somme += t.getPourcentage();
         }
         return somme;
     }
@@ -266,6 +291,7 @@ public class Projet {
         }
         return l;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

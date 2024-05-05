@@ -33,7 +33,7 @@ public class ProjetModelDB extends DAOProjet {
 
             pstm1.setString(1, projet.getNom());
             pstm1.setDate(2, projet.getDateDebut() != null ? Date.valueOf(projet.getDateDebut()) : null);
-            pstm1.setDate(2, projet.getDateFin() != null ? Date.valueOf(projet.getDateDebut()) : null);
+            pstm1.setDate(3, projet.getDateFin() != null ? Date.valueOf(projet.getDateDebut()) : null);
             pstm1.setBigDecimal(4, projet.getCout());
             pstm1.setInt(5, projet.getDisciplineDeBase().getIdDiscipline());
             int n = pstm1.executeUpdate();
@@ -154,13 +154,12 @@ public class ProjetModelDB extends DAOProjet {
     }
 
     @Override
-    public boolean addEmploye(Projet proj, Employe emp,LocalDate dte, int pourcentage) {
-        String query="insert into APITRAVAIL(idprojet,idemploye,dateengag,pourcentage) values(?,?,?,?)";
+    public boolean addEmploye(Projet proj, Employe emp,int pourcentage) {
+        String query="insert into APITRAVAIL(idprojet,idemploye,dateengag,pourcentage) values(?,?,CURRENT_DATE,?)";
         try(PreparedStatement pstm= dbConnect.prepareStatement(query)){
             pstm.setInt(1,proj.getIdProjet());
             pstm.setInt(2,emp.getIdEmploye());
-            pstm.setDate(3, dte!=null?Date.valueOf(dte):null);
-            pstm.setInt(4,pourcentage);
+            pstm.setInt(3,pourcentage);
             int n=pstm.executeUpdate();
             if(n!=0) return true;
             else return false;
@@ -203,23 +202,23 @@ public class ProjetModelDB extends DAOProjet {
 
     @Override
     public List<Travail> getEmployes(Projet proj) {
-        String query="slect * from apitravailemploye where idprojet=?";
+        String query="select * from apitravailemploye where idprojet=?";
         List<Travail> lt=new ArrayList<>();
         try(PreparedStatement pstm=dbConnect.prepareStatement(query)){
             pstm.setInt(1,proj.getIdProjet());
             ResultSet rs=pstm.executeQuery(query);
             while(rs.next()){
-                int idtravail=rs.getInt("idtravail");
-                int idprojet=rs.getInt("idprojet");
-                int idemploye=rs.getInt("idemploye");
-                Date dte=rs.getDate("dateengag");
+                int idtravail=rs.getInt(1);
+                int idprojet=rs.getInt(2);
+                int idemploye=rs.getInt(3);
+                Date dte=rs.getDate(4);
                 LocalDate dateengag=dte!=null?dte.toLocalDate():null;
-                int pourcentage=rs.getInt("pourcentage");
-                String mat=rs.getString("matricule");
-                String nom=rs.getString("nom");
-                String prenom=rs.getString("prenom");
-                String tel=rs.getString("tel");
-                String mail=rs.getString("mail");
+                int pourcentage=rs.getInt(5);
+                String mat=rs.getString(6);
+                String nom=rs.getString(7);
+                String prenom=rs.getString(8);
+                String tel=rs.getString(9);
+                String mail=rs.getString(10);
                 Employe emp=new Employe(idemploye,mat,nom,prenom,tel,mail);
                 Travail t= new Travail(idtravail,pourcentage,dateengag,emp);
                 lt.add(t);

@@ -194,7 +194,7 @@ public class EmployeModelDB extends DAOEmploye {
 
     @Override
     public List<Competence> getDisciplines(Employe emp) {
-        String query="SELECT * FROM COMPETENCEDISCIPLINE WHERE IDDISCIPLINE=?";
+        String query="SELECT * FROM APICOMPETENCEDISCIPLINE WHERE IDEMPLOYE=?";
         List<Competence> ll=new ArrayList<>();
         try(PreparedStatement pstm=dbConnect.prepareStatement(query)){
             pstm.setInt(1,emp.getIdEmploye());
@@ -209,6 +209,7 @@ public class EmployeModelDB extends DAOEmploye {
                 Discipline dis=new Discipline(idDiscipline,nom,description);
                 Competence comp=new Competence(idCompetence,niveau,dis);
                 ll.add(comp);
+
             }
         }catch(SQLException e){
             System.err.println("erreur sql : "+e);

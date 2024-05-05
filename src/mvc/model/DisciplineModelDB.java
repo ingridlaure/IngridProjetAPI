@@ -24,7 +24,7 @@ public class DisciplineModelDB extends DAODiscipline{
     @Override
     public Discipline addDiscipline(Discipline discipline) {
         String query1 = "insert into APIDISCIPLINE(nom,description) values(?,?)";
-        String query2 = "select idDisicpline from APIDISCIPLINE where nom=?";
+        String query2 = "select idDiscipline from APIDISCIPLINE where nom=?";
         try(PreparedStatement pstm1= dbConnect.prepareStatement(query1);
             PreparedStatement pstm2= dbConnect.prepareStatement(query2);
         ){
@@ -78,7 +78,7 @@ public class DisciplineModelDB extends DAODiscipline{
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setString(1,discipline.getNom());
             pstm.setString(2,discipline.getDescription());
-            pstm.setInt(8,discipline.getIdDiscipline());
+            pstm.setInt(3,discipline.getIdDiscipline());
             int n = pstm.executeUpdate();
             notifyObservers();
             if(n!=0) return readDiscipline(discipline.getIdDiscipline());
@@ -108,7 +108,7 @@ order by d.iddiscipline;
 
  */
 
-        String query = "select * from APIDSCIPLINE_PROJET where iddiscipline= ?";
+        String query = "select * from APIDISCIPLINE_PROJET where iddiscipline= ?";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1,idDiscipline);
             ResultSet rs = pstm.executeQuery();
