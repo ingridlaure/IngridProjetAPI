@@ -113,9 +113,7 @@ public class ProjetModelDB extends DAOProjet {
                 date = rs.getDate(7);
                 LocalDate datefin = date != null ? date.toLocalDate() : null;
                 BigDecimal cout = rs.getBigDecimal(8);
-                Projet proj = new Projet(idproj, nomProj, datedebut, datefin, cout, dis);
-
-                return proj;
+                return new Projet(idproj, nomProj, datedebut, datefin, cout, dis);
             }else{
                 return null;
             }
@@ -180,7 +178,7 @@ public class ProjetModelDB extends DAOProjet {
             if (n != 0) return true;
             else return false;
         } catch (SQLException e) {
-            System.err.println("eereur sql: " + e);
+            System.err.println("erreur sql: " + e);
             return false;
         }
     }
@@ -202,8 +200,8 @@ public class ProjetModelDB extends DAOProjet {
 
     @Override
     public List<Travail> getEmployes(Projet proj) {
-        String query="select * from apitravailemploye where idprojet=?";
         List<Travail> lt=new ArrayList<>();
+        String query="select * from APITRAVAILEMPLOYE where idprojet=?";
         try(PreparedStatement pstm=dbConnect.prepareStatement(query)){
             pstm.setInt(1,proj.getIdProjet());
             ResultSet rs=pstm.executeQuery(query);

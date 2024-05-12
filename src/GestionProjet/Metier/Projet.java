@@ -52,13 +52,13 @@ public class Projet {
      * @param dateFin   date de fin du projet
      * @param cout      cout du projet
      */
-    public Projet(int idProjet, String nom, LocalDate dateDebut, LocalDate dateFin, BigDecimal cout, Discipline discipline) {
+    public Projet(int idProjet, String nom, LocalDate dateDebut, LocalDate dateFin,BigDecimal cout, Discipline discipline) {
         this.idProjet = idProjet;
         this.nom = nom;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
-        cout = new BigDecimal(0);
-        this.cout = cout.setScale(2, RoundingMode.HALF_UP);
+        this.cout=cout;
+        //cout.setScale(2, RoundingMode.HALF_UP);
         this.disciplineDeBase = discipline;
 
     }

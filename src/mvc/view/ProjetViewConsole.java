@@ -134,6 +134,7 @@ public class ProjetViewConsole extends ProjetAbstractView {
     }
 
     private void supprimer() {
+        affList(lp);
         int n = choixElt(lp);
         Projet proj = lp.get(n - 1);
         boolean ok = projetController.removeProjet(proj);
@@ -142,6 +143,7 @@ public class ProjetViewConsole extends ProjetAbstractView {
     }
 
     private void modifier() {
+        affList(lp);
         int n=choixElt(lp);
         Projet proj=lp.get(n-1);
         String nom=modifyIfNotBlank(" nom du projet",proj.getNom());
