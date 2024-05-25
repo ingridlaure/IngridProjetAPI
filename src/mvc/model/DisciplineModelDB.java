@@ -93,20 +93,6 @@ public class DisciplineModelDB extends mvc.model.DAODiscipline {
 
     @Override
     public Discipline readDiscipline(int idDiscipline) {
-        /*
-       create or replace view APIDISCIPLINE_PROJET(iddiscipline,nomdiscipline,descriptiondiscipline,idprojet,nomprojet,datedebutprojet,datefinprojet,coutprojet)
-as select
-d.iddiscipline,
-d.nom,d.description,
-p.idprojet,
-p.nom,
-p.datedebut,
-p.datefin,
-p.cout
-from apidiscipline d join apiprojet p on d.iddiscipLine=p.iddiscipline
-order by d.iddiscipline;
-
- */
 
         String query = "select * from APIDISCIPLINE_PROJET where iddiscipline= ?";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {

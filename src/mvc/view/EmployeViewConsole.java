@@ -28,7 +28,7 @@ public class EmployeViewConsole extends EmployeAbstractView {
     public void menu() {
         update(employeController.getAll());
         do {
-            int ch = choixListe(Arrays.asList("ajout", "retrait", "rechercher", "modifier", "fin"));
+            int ch = choixListe(Arrays.asList("ajout", "supprimer", "rechercher", "modifier", "fin"));
 
             switch (ch) {
                 case 1:
@@ -76,6 +76,7 @@ public class EmployeViewConsole extends EmployeAbstractView {
     }
 
     private void retirer() {
+        affList(lemp);
 
         int nl = choixElt(lemp);
         Employe emp = lemp.get(nl - 1);
@@ -113,7 +114,7 @@ public class EmployeViewConsole extends EmployeAbstractView {
         do {
             affMsg(" Employe " + emp.toString());
 
-            int choix = choixListe(Arrays.asList("ajouter discipline", "modifier discipline", "supprimer discipline", "lister discipline","fin"));
+            int choix = choixListe(Arrays.asList("ajouter discipline", "modifier discipline", "supprimer discipline", "lister discipline", "fin"));
             switch (choix) {
                 case 1:
                     ajouterDidscipline(emp);
@@ -149,7 +150,7 @@ public class EmployeViewConsole extends EmployeAbstractView {
         System.out.println("Modification d'une competence");
         List<Competence> lc = employeController.getCompetences(emp);
         affList(lc);
-        Competence c = lc.get(choixElt(lc)-1);
+        Competence c = lc.get(choixElt(lc) - 1);
         Discipline dis = c.getDiscipline();
         //Discipline dis = dv.selectionner();
         System.out.println("niveau : ");
@@ -163,7 +164,7 @@ public class EmployeViewConsole extends EmployeAbstractView {
         System.out.println(" Suprresion d'une compétence ");
         List<Competence> lc = employeController.getCompetences(emp);
         affList(lc);
-        Competence c = lc.get(choixElt(lc)-1);
+        Competence c = lc.get(choixElt(lc) - 1);
         Discipline dis = c.getDiscipline();
         boolean ok = employeController.supDiscipline(emp, dis);
         if (ok) affMsg("Competence supprimé avec succes");
@@ -171,7 +172,7 @@ public class EmployeViewConsole extends EmployeAbstractView {
     }
 
     private void listerDisciplines(Employe emp) {
-        System.out.println("Competence de l'employé : "+emp);
+        System.out.println("Competence de l'employé : " + emp);
         List<Competence> lc = employeController.getCompetences(emp);
         if (lc.isEmpty())
             affMsg("aucune competence pour cette employe");

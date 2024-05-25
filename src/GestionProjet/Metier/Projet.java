@@ -163,7 +163,7 @@ public class Projet {
      * @return le cout du projet
      */
     public BigDecimal getCout() {
-        return cout;
+        return cout.setScale(2, RoundingMode.HALF_UP);
     }
 
     /**
