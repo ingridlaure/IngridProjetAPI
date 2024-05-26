@@ -66,6 +66,4 @@ public class GestionProjet {
         GestionProjet gp = new GestionProjet();
         gp.gestion();
     }
-
-
 }
