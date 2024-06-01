@@ -1,6 +1,9 @@
 package mvc.view;
 
-import GestionProjet.Metier.*;
+import GestionProjet.Metier.Discipline;
+import GestionProjet.Metier.Employe;
+import GestionProjet.Metier.Projet;
+import GestionProjet.Metier.Travail;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -53,7 +56,7 @@ public class ProjetViewConsole extends ProjetAbstractView {
 
     private void operationSpeciale(Projet proj) {
         do {
-            int choix = choixListe(Arrays.asList("ajouter un employe", "modfier un employe", "supprimer un employe", "lister les employe", "menu principal"));
+            int choix = choixListe(Arrays.asList("ajouter un employe", "modfier un employe", "supprimer un employe", "lister les employe", "Liste des Employe discipline de base ","Pourcentage Total", "menu principal"));
             switch (choix) {
                 case 1:
                     ajouterEmploye(proj);
@@ -67,7 +70,12 @@ public class ProjetViewConsole extends ProjetAbstractView {
                 case 4:
                     listerEmploye(proj);
                     break;
-                case 5:
+                case 5:listeEmployeDisciplineBase(proj);
+                break;
+                case 6:
+                    pourcentageTotal(proj);
+                    break;
+                case 7:
                     return;
                 default:
                     System.out.println(" choix invalide , veuillez recommencer");
@@ -89,7 +97,7 @@ public class ProjetViewConsole extends ProjetAbstractView {
         System.out.println("Modification d'un employe");
         List<Travail> lt = projetController.getEmployes(proj);
         affList(lt);
-        Travail t = lt.get(choixElt(lt)-1);
+        Travail t = lt.get(choixElt(lt) - 1);
         Employe emp = t.getEmploye();
         System.out.println(" nouveau pourcentage");
         int pourcentage = lireInt();
@@ -102,7 +110,7 @@ public class ProjetViewConsole extends ProjetAbstractView {
         System.out.println(" Suppresion d'un travail");
         List<Travail> lt = projetController.getEmployes(proj);
         affList(lt);
-        Travail t = lt.get(choixElt(lt)-1);
+        Travail t = lt.get(choixElt(lt) - 1);
         Employe emp = t.getEmploye();
         boolean ok = projetController.supEmploye(proj, emp);
         if (ok) affMsg(" employe supprimé avec succes");
@@ -114,6 +122,18 @@ public class ProjetViewConsole extends ProjetAbstractView {
         List<Travail> lt = projetController.getEmployes(proj);
         if (lt.isEmpty()) affMsg("aucun employé assigné pour ce projet");
         else affList(lt);
+    }
+    public void listeEmployeDisciplineBase(Projet proj){
+        System.out.println("Niveau que vous voulez savoir");
+        int niveau=sc.nextInt();
+        List<Employe> lp=projetController.listeEmployesDiscipline(proj,niveau);
+        if (lp.isEmpty()) affMsg("aucun employé ayant un niveau egal ou superieur");
+        else affList(lp);
+    }
+    private void pourcentageTotal(Projet proj){
+        System.out.println("Pourcentage total du projet");
+        int total= projetController.pourcentageTotal(proj);
+        System.out.println("PourcentageTotal = "+total);
     }
 
     private void ajouter() {
@@ -144,26 +164,26 @@ public class ProjetViewConsole extends ProjetAbstractView {
 
     private void modifier() {
         affList(lp);
-        int n=choixElt(lp);
-        Projet proj=lp.get(n-1);
-        String nom=modifyIfNotBlank(" nom du projet",proj.getNom());
-        String date=modifyIfNotBlank("date de debut :",proj.getDateDebut()+"");
-        LocalDate datedebut=!date.equals("null")?LocalDate.parse(date):null;
-        date =modifyIfNotBlank("date de fin :",proj.getDateFin()+"");
-        LocalDate datefin=!date.equals("null")?LocalDate.parse(date):null;
-        BigDecimal cout=new BigDecimal(modifyIfNotBlank(" cout : ",proj.getCout().toString())).setScale(2, RoundingMode.HALF_UP);
-        Projet nproj=new Projet(proj.getIdProjet(),nom,datedebut,datefin,cout,proj.getDisciplineDeBase());
-        proj=projetController.updateProjet(nproj);
-        if(proj!=null) affMsg("projet modifé avec succes");
+        int n = choixElt(lp);
+        Projet proj = lp.get(n - 1);
+        String nom = modifyIfNotBlank(" nom du projet", proj.getNom());
+        String date = modifyIfNotBlank("date de debut :", proj.getDateDebut() + "");
+        LocalDate datedebut = !date.equals("null") ? LocalDate.parse(date) : null;
+        date = modifyIfNotBlank("date de fin :", proj.getDateFin() + "");
+        LocalDate datefin = !date.equals("null") ? LocalDate.parse(date) : null;
+        BigDecimal cout = new BigDecimal(modifyIfNotBlank(" cout : ", proj.getCout().toString())).setScale(2, RoundingMode.HALF_UP);
+        Projet nproj = new Projet(proj.getIdProjet(), nom, datedebut, datefin, cout, proj.getDisciplineDeBase());
+        proj = projetController.updateProjet(nproj);
+        if (proj != null) affMsg("projet modifé avec succes");
         else affMsg(" erreur lors de la mise à jour");
     }
 
     private void rechercher() {
         System.out.println("Id du projet : ");
-        int idprojet=sc.nextInt();
-        Projet proj=projetController.search(idprojet);
-        if(proj==null) affMsg(" Projet inexistant ");
-        else{
+        int idprojet = sc.nextInt();
+        Projet proj = projetController.search(idprojet);
+        if (proj == null) affMsg(" Projet inexistant ");
+        else {
             affMsg(proj.toString());
             operationSpeciale(proj);
         }

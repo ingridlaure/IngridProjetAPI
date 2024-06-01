@@ -25,6 +25,9 @@ public class ProjetController {
     public boolean addEmploye(Projet proj, Employe emp, int pourcentage){return model.addEmploye(proj,emp,pourcentage);}
     public boolean modifEmploye(Projet proj, Employe emp, int pourcentage){return model.updateEmploye(proj,emp,pourcentage);}
     public boolean supEmploye(Projet proj,Employe emp){return model.removeEmploye(proj,emp);}
+    public int pourcentageTotal(Projet proj){return model.pourcentageTotal(proj);}
+    public List<Employe> listeEmployesDiscipline(Projet proj,int niveau){return model.listeEmployesDiscipline(proj,niveau);}
+
     public List<Travail> getEmployes(Projet proj){return model.getEmployes(proj);}
 
 

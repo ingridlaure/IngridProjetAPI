@@ -18,6 +18,8 @@ public abstract class DAOProjet extends Subject {
     public abstract boolean addEmploye(Projet proj, Employe emp,int pourcentage);
     public abstract boolean updateEmploye(Projet proj, Employe emp, int pourcentage);
     public abstract boolean removeEmploye(Projet proj,Employe emp);
+    public abstract int pourcentageTotal(Projet proj);
+    public abstract  List<Employe> listeEmployesDiscipline(Projet proj,int niveau);
     public abstract List<Travail> getEmployes(Projet proj);
 
 

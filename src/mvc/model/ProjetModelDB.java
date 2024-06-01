@@ -227,6 +227,55 @@ public class ProjetModelDB extends DAOProjet {
         return lt;
     }
 
+    public int pourcentageTotal(Projet proj){
+        String query="select pourcentagetotal from APIPROJET where idprojet=?";
+        int total=0;
+        try(PreparedStatement pstm=dbConnect.prepareStatement(query)){
+            pstm.setInt(1,proj.getIdProjet());
+            ResultSet rs=pstm.executeQuery();
+            while(rs.next()){
+                 total=rs.getInt(1);
+            }
+        }catch(SQLException e){
+            System.err.println("erreur sql :"+e);
+        }
+        return total;
+    }
+
+    public List<Employe> listeEmployesDiscipline(Projet proj,int niveau){
+        String query="select * from APIPROJETEMPLOYECOMPETENCE where idprojet= ? and iddiscipline=? and niveau>=?";
+        String query2="select * from Employe where idemploye=?";
+        List<Employe> lt=new ArrayList<>();
+        try(PreparedStatement pstm=dbConnect.prepareStatement(query)){
+            pstm.setInt(1,proj.getIdProjet());
+            pstm.setInt(2,niveau);
+            pstm.setInt(3,proj.getDisciplineDeBase().getIdDiscipline());
+            ResultSet rs=pstm.executeQuery();
+            while(rs.next()){
+                int idEmploye=rs.getInt(2);
+                try(PreparedStatement pstm2=dbConnect.prepareStatement(query2)){
+                    pstm2.setInt(1,idEmploye);
+                    ResultSet rs2=pstm2.executeQuery();
+                    while(rs2.next()){
+                        String matricule = rs2.getString(2);
+                        String nom = rs2.getString(3);
+                        String prenom = rs2.getString(4);
+                        String tel = rs2.getString(5);
+                        String mail = rs2.getString(6);
+                        Employe emp = new Employe(idEmploye, matricule, nom, prenom, tel, mail);
+                        lt.add(emp);
+                    }
+                }catch(SQLException e){
+                    System.err.println("erreur sql :"+e);
+                }
+            }
+        }catch(SQLException e){
+            System.err.println("erreur sql :"+e);
+        }
+        return lt;
+
+    }
+
     @Override
     public List getNotification() {
         return getProjets();
