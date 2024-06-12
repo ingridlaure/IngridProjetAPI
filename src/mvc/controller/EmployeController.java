@@ -3,6 +3,7 @@ package mvc.controller;
 import GestionProjet.Metier.Competence;
 import GestionProjet.Metier.Discipline;
 import GestionProjet.Metier.Employe;
+import GestionProjet.Metier.Projet;
 import mvc.model.DAOEmploye;
 import mvc.view.EmployeAbstractView;
 
@@ -30,6 +31,8 @@ public class EmployeController {
     public boolean updateDiscipline(Employe emp, Discipline dis,int niveau){return model.updateDiscipline(emp,dis,niveau);}
     public boolean supDiscipline(Employe emp,Discipline dis){return model.removeDiscipline(emp,dis);}
     public List<Competence> getCompetences(Employe emp){return model.getDisciplines(emp);}
+    public List<Projet>  listeProjetDiscipline(List<Discipline> ldis){return model.listeProjetDiscipline(ldis);}
+    public int niveauxCompetenceMax(Employe emp){return model.niveauCompetenceMax(emp);}
 
 
 }

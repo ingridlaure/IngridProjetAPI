@@ -3,7 +3,9 @@ package mvc.view;
 import GestionProjet.Metier.Competence;
 import GestionProjet.Metier.Discipline;
 import GestionProjet.Metier.Employe;
+import GestionProjet.Metier.Projet;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -114,7 +116,7 @@ public class EmployeViewConsole extends EmployeAbstractView {
         do {
             affMsg(" Employe " + emp.toString());
 
-            int choix = choixListe(Arrays.asList("ajouter discipline", "modifier discipline", "supprimer discipline", "lister discipline", "fin"));
+            int choix = choixListe(Arrays.asList("ajouter discipline", "modifier discipline", "supprimer discipline", "lister discipline", "Liste des projets d'une competence", "Niveau de competence maximale", "fin"));
             switch (choix) {
                 case 1:
                     ajouterDidscipline(emp);
@@ -129,11 +131,36 @@ public class EmployeViewConsole extends EmployeAbstractView {
                     listerDisciplines(emp);
                     break;
                 case 5:
+                    listeProjetParCompetence(emp);
+                    break;
+                case 6:
+                    niveauCompetenceMax(emp);
+                    break;
+                case 7:
                     return;
                 default:
                     System.out.println("choix invalide recommencez ");
             }
         } while (true);
+    }
+
+    private void listeProjetParCompetence(Employe emp) {
+        List<Projet> lp = new ArrayList<>();
+        List<Discipline> ldis = new ArrayList<>();
+        List<Competence> lc = employeController.getCompetences(emp);
+        for (Competence c : lc) {
+            ldis.add(c.getDiscipline());
+        }
+        lp = employeController.listeProjetDiscipline(ldis);
+        if (lp.isEmpty()) {
+            System.out.println("Pas de projet pour les competences de cet employe");
+        } else {
+            affList(lp);
+        }
+    }
+    private void niveauCompetenceMax(Employe emp){
+        int niveauMax=employeController.niveauxCompetenceMax(emp);
+        System.out.println("Le niveau de competence max de "+emp.getNom()+" est : "+niveauMax);
     }
 
     private void ajouterDidscipline(Employe emp) {

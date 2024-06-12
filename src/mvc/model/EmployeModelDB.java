@@ -3,9 +3,12 @@ package mvc.model;
 import GestionProjet.Metier.Competence;
 import GestionProjet.Metier.Discipline;
 import GestionProjet.Metier.Employe;
+import GestionProjet.Metier.Projet;
 import myconnections.DBConnection;
 
+import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,7 +104,7 @@ public class EmployeModelDB extends DAOEmploye {
             pstm.setString(1, mat);
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
-                int idEmploye=rs.getInt(1);
+                int idEmploye = rs.getInt(1);
                 String matricule = rs.getString(2);
                 String nom = rs.getString(3);
                 String prenom = rs.getString(4);
@@ -145,16 +148,16 @@ public class EmployeModelDB extends DAOEmploye {
 
     @Override
     public boolean addDiscipline(Employe emp, Discipline dis, int niveau) {
-        String query="insert into APICOMPETENCE(idemploye,iddiscipline,niveau) values(?,?,?)";
-        try(PreparedStatement pstm=dbConnect.prepareStatement(query)){
-            pstm.setInt(1,emp.getIdEmploye());
-            pstm.setInt(2,dis.getIdDiscipline());
-            pstm.setInt(3,niveau);
-            int n=pstm.executeUpdate();
-            if(n!=0) return true;
+        String query = "insert into APICOMPETENCE(idemploye,iddiscipline,niveau) values(?,?,?)";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, emp.getIdEmploye());
+            pstm.setInt(2, dis.getIdDiscipline());
+            pstm.setInt(3, niveau);
+            int n = pstm.executeUpdate();
+            if (n != 0) return true;
             else return false;
-        }catch(SQLException e){
-            System.out.println("erreur sql : "+e);
+        } catch (SQLException e) {
+            System.out.println("erreur sql : " + e);
             return false;
         }
     }
@@ -162,12 +165,12 @@ public class EmployeModelDB extends DAOEmploye {
     @Override
     public boolean updateDiscipline(Employe emp, Discipline dis, int niveau) {
         String query = "update  APICOMPETENCE set niveau= ? where idemploye = ? AND iddiscipline = ?";
-        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,niveau);
-            pstm.setInt(2,emp.getIdEmploye());
-            pstm.setInt(3,dis.getIdDiscipline());
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, niveau);
+            pstm.setInt(2, emp.getIdEmploye());
+            pstm.setInt(3, dis.getIdDiscipline());
             int n = pstm.executeUpdate();
-            if(n!=0) return true;
+            if (n != 0) return true;
             else return false;
 
         } catch (SQLException e) {
@@ -179,11 +182,11 @@ public class EmployeModelDB extends DAOEmploye {
     @Override
     public boolean removeDiscipline(Employe emp, Discipline dis) {
         String query = "DELETE FROM  APICOMPETENCE where  idemploye = ? AND iddiscipline = ?";
-        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,emp.getIdEmploye());
-            pstm.setInt(2,dis.getIdDiscipline());
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, emp.getIdEmploye());
+            pstm.setInt(2, dis.getIdDiscipline());
             int n = pstm.executeUpdate();
-            if(n!=0) return true;
+            if (n != 0) return true;
             else return false;
 
         } catch (SQLException e) {
@@ -194,27 +197,72 @@ public class EmployeModelDB extends DAOEmploye {
 
     @Override
     public List<Competence> getDisciplines(Employe emp) {
-        String query="SELECT * FROM APICOMPETENCEDISCIPLINE WHERE IDEMPLOYE=?";
-        List<Competence> ll=new ArrayList<>();
-        try(PreparedStatement pstm=dbConnect.prepareStatement(query)){
-            pstm.setInt(1,emp.getIdEmploye());
-            ResultSet rs=pstm.executeQuery();
-            while(rs.next()){
-                int idCompetence=rs.getInt("idcompetence");
-                int idEmploye=rs.getInt("idemploye");
-                int idDiscipline=rs.getInt("iddiscipline");
-                int niveau=rs.getInt("niveau");
-                String nom=rs.getString("nom");
-                String description=rs.getString("description");
-                Discipline dis=new Discipline(idDiscipline,nom,description);
-                Competence comp=new Competence(idCompetence,niveau,dis);
+        String query = "SELECT * FROM APICOMPETENCEDISCIPLINE WHERE IDEMPLOYE=?";
+        List<Competence> ll = new ArrayList<>();
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, emp.getIdEmploye());
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                int idCompetence = rs.getInt("idcompetence");
+                int idEmploye = rs.getInt("idemploye");
+                int idDiscipline = rs.getInt("iddiscipline");
+                int niveau = rs.getInt("niveau");
+                String nom = rs.getString("nom");
+                String description = rs.getString("description");
+                Discipline dis = new Discipline(idDiscipline, nom, description);
+                Competence comp = new Competence(idCompetence, niveau, dis);
                 ll.add(comp);
 
             }
-        }catch(SQLException e){
-            System.err.println("erreur sql : "+e);
+        } catch (SQLException e) {
+            System.err.println("erreur sql : " + e);
         }
         return ll;
+    }
+
+    public List<Projet> listeProjetDiscipline(List<Discipline> ldis) {
+        List<Projet> lp = new ArrayList<>();
+        for (Discipline d : ldis) {
+            String query = "SELECT * FROM APIPROJET WHERE IDDISCIPLINE=?";
+            try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+                pstm.setInt(1, d.getIdDiscipline());
+                ResultSet rs = pstm.executeQuery();
+                while (rs.next()) {
+                    int idproj = rs.getInt(1);
+                    String nomProj = rs.getString(2);
+                    Date date = rs.getDate(3);
+                    LocalDate datedebut = date != null ? date.toLocalDate() : null;
+                    date = rs.getDate(4);
+                    LocalDate datefin = date != null ? date.toLocalDate() : null;
+                    BigDecimal cout = rs.getBigDecimal(5);
+                    Projet proj = new Projet(idproj, nomProj, datedebut, datefin, cout, d);
+                    lp.add(proj);
+                }
+
+            } catch (SQLException e) {
+                System.err.println("erreur sql :" + e);
+            }
+        }
+        return lp;
+
+
+    }
+
+    @Override
+    public int niveauCompetenceMax(Employe emp) {
+        int niv=0;
+        String query = "SELECT MAX(niveau) FROM APICOMPETENCE WHERE IDEMPLOYE=?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,emp.getIdEmploye());
+            ResultSet rs= pstm.executeQuery();
+            while(rs.next()){
+                niv=rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("erreur sql"+e);
+        }
+        return niv;
     }
 
     @Override

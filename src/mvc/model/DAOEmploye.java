@@ -3,6 +3,7 @@ package mvc.model;
 import GestionProjet.Metier.Competence;
 import GestionProjet.Metier.Discipline;
 import GestionProjet.Metier.Employe;
+import GestionProjet.Metier.Projet;
 import mvc.observer.Subject;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public abstract class DAOEmploye extends Subject {
     public abstract boolean updateDiscipline(Employe emp, Discipline dis,int niveau);
     public abstract boolean removeDiscipline(Employe emp, Discipline dis);
     public abstract List<Competence> getDisciplines(Employe emp);
+    public abstract List<Projet> listeProjetDiscipline(List<Discipline> ldis);
+    public abstract int niveauCompetenceMax(Employe emp);
 
 
 

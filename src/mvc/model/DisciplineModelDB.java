@@ -106,6 +106,7 @@ public class DisciplineModelDB extends mvc.model.DAODiscipline {
                 int idProjet=rs.getInt(4);
                 if(idProjet!=0){
                     do{
+                        idProjet=rs.getInt(4);
                         String nomProjet=rs.getString(5);
                         Date date=rs.getDate(6);
                         LocalDate dateDebut= date!=null?date.toLocalDate():null;
